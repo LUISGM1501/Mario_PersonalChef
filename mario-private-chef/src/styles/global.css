@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #c8a256;
+  --color-primary-light: #dbb96a;
+  --color-primary-dark: #a8863e;
+  --color-dark: #0a0a0a;
+  --color-dark-light: #141414;
+  --color-dark-lighter: #1e1e1e;
+  --color-gray: #888888;
+  --color-gray-light: #b0b0b0;
+  --color-white: #f5f5f5;
+
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Outfit', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-dark);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* SOLUCIÓN DEFINITIVA: Ocultar scrollbar completamente */
+html::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  overflow-x: hidden;
+  /* Grid para centrar TODO el contenido */
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+[data-aos] {
+  pointer-events: auto !important;
+}
+
+/* Forzar que max-w-7xl use el ancho correcto sin el scrollbar */
+.max-w-7xl {
+  max-width: 80rem !important;
+}

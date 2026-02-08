@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <!-- Background circle -->
+  <circle cx="150" cy="150" r="145" fill="#0a0a0a" stroke="#c8a256" stroke-width="2"/>
+  <circle cx="150" cy="150" r="130" fill="none" stroke="#c8a256" stroke-width="0.5" opacity="0.4"/>
+  
+  <!-- Knife icon - elegant and minimal -->
+  <g transform="translate(150, 80)">
+    <!-- Knife blade -->
+    <path d="M0 0 L8 70 L0 85 L-8 70 Z" fill="#c8a256" opacity="0.9"/>
+    <!-- Knife handle -->
+    <rect x="-5" y="85" width="10" height="30" rx="2" fill="#c8a256"/>
+    <rect x="-3" y="88" width="6" height="3" rx="1" fill="#0a0a0a" opacity="0.3"/>
+    <rect x="-3" y="95" width="6" height="3" rx="1" fill="#0a0a0a" opacity="0.3"/>
+    <rect x="-3" y="102" width="6" height="3" rx="1" fill="#0a0a0a" opacity="0.3"/>
+  </g>
+  
+  <!-- M Letter - elegant serif -->
+  <text x="150" y="240" text-anchor="middle" font-family="'Cormorant Garamond', 'Georgia', serif" font-size="52" font-weight="600" fill="#c8a256" letter-spacing="2">M</text>
+  
+  <!-- Decorative line under M -->
+  <line x1="120" y1="250" x2="180" y2="250" stroke="#c8a256" stroke-width="0.8" opacity="0.6"/>
+</svg>

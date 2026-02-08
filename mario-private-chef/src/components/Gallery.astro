@@ -1,0 +1,121 @@
+---
+const images = Array.from({ length: 10 }, (_, i) => ({
+  src: `/images/gallery-${i + 1}.jpg`,
+  alt: `Gallery image ${i + 1}`,
+}))
+
+const videos = Array.from({ length: 5 }, (_, i) => ({
+  src: `/videos/video-${i + 1}.mp4`,
+}))
+---
+
+<section id="gallery" class="relative py-24 md:py-32 bg-dark">
+  <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+
+  <div class="text-center mb-16 px-6 md:px-20 lg:px-32 xl:px-48" data-aos="fade-up">
+    <p class="text-primary text-sm uppercase tracking-[0.4em] mb-3 font-body">Portfolio</p>
+    <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-light text-white">
+      The <span class="text-primary italic">Gallery</span>
+    </h2>
+  </div>
+
+  <div class="flex justify-center gap-6 mb-12 px-6 md:px-20 lg:px-32 xl:px-48" data-aos="fade-up" data-aos-delay="100">
+    <button class="gallery-filter active text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-primary text-primary transition-all duration-300" data-filter="all">All</button>
+    <button class="gallery-filter text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-transparent text-gray hover:text-primary transition-all duration-300" data-filter="photos">Photos</button>
+    <button class="gallery-filter text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-transparent text-gray hover:text-primary transition-all duration-300" data-filter="videos">Videos</button>
+  </div>
+
+  <!-- Gallery con GAPS VISUALES - más padding que las otras secciones -->
+  <div class="px-16 md:px-32 lg:px-48 xl:px-64">
+    <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 [column-gap:3px]">
+      {images.map((img, i) => (
+        <div class="gallery-item break-inside-avoid mb-[3px] overflow-hidden group cursor-pointer" data-type="photos" data-aos="fade-up" data-aos-delay={(i % 3) * 80}>
+          <div class="relative overflow-hidden">
+            <img src={img.src} alt={img.alt} loading="lazy" class="w-full block object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-dark/0 group-hover:bg-dark/30 transition-all duration-500 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {videos.map((vid, i) => (
+        <div class="gallery-item break-inside-avoid mb-[3px] overflow-hidden group" data-type="videos" data-aos="fade-up" data-aos-delay={(i % 3) * 80}>
+          <div class="relative overflow-hidden">
+            <video src={vid.src} muted loop playsinline preload="metadata" class="w-full block object-cover transition-transform duration-700 group-hover:scale-105" onmouseenter="this.play()" onmouseleave="this.pause()" />
+            <div class="absolute top-4 left-4 flex items-center gap-2 bg-dark/60 backdrop-blur-sm px-3 py-1.5 pointer-events-none">
+              <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span class="text-[10px] uppercase tracking-[0.2em] text-white font-body">Video</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-50 bg-dark/95 backdrop-blur-md hidden items-center justify-center p-6">
+    <button id="lightbox-close" class="absolute top-6 right-6 text-white hover:text-primary transition-colors">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] object-contain" />
+  </div>
+</section>
+
+<script>
+  const filters = document.querySelectorAll('.gallery-filter')
+  const items = document.querySelectorAll('.gallery-item')
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(f => {
+        f.classList.remove('active', 'text-primary', 'border-primary')
+        f.classList.add('text-gray', 'border-transparent')
+      })
+      btn.classList.add('active', 'text-primary', 'border-primary')
+      btn.classList.remove('text-gray', 'border-transparent')
+
+      const filter = btn.getAttribute('data-filter')
+      items.forEach(item => {
+        const type = item.getAttribute('data-type')
+        if (filter === 'all' || type === filter) {
+          ;(item as HTMLElement).style.display = 'block'
+        } else {
+          ;(item as HTMLElement).style.display = 'none'
+        }
+      })
+    })
+  })
+
+  const lightbox = document.getElementById('lightbox')!
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement
+  const lightboxClose = document.getElementById('lightbox-close')!
+
+  document.querySelectorAll('.gallery-item[data-type="photos"]').forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img')
+      if (img) {
+        lightboxImg.src = img.src
+        lightboxImg.alt = img.alt
+        lightbox.classList.remove('hidden')
+        lightbox.classList.add('flex')
+      }
+    })
+  })
+
+  lightboxClose.addEventListener('click', () => {
+    lightbox.classList.add('hidden')
+    lightbox.classList.remove('flex')
+  })
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.add('hidden')
+      lightbox.classList.remove('flex')
+    }
+  })
+</script>
