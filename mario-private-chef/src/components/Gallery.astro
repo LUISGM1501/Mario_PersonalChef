@@ -29,7 +29,7 @@ const videos = Array.from({ length: 5 }, (_, i) => ({
   </div>
 
   <!-- Gallery con contenedor más pequeño para GAPS MÁS GRANDES -->
-  <div style="max-width: 900px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem;">
+  <div style="max-width: 1300px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem;">
     <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 [column-gap:3px]">
       {images.map((img, i) => (
         <div class="gallery-item break-inside-avoid mb-[3px] overflow-hidden group cursor-pointer" data-type="photos" data-aos="fade-up" data-aos-delay={(i % 3) * 80}>
