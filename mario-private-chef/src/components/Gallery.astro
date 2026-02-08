@@ -6,6 +6,7 @@ const images = Array.from({ length: 10 }, (_, i) => ({
 
 const videos = Array.from({ length: 5 }, (_, i) => ({
   src: `/videos/video-${i + 1}.mp4`,
+  poster: `/videos/posters/video-${i + 1}.jpg`, // Poster frame
 }))
 ---
 
@@ -51,11 +52,12 @@ const videos = Array.from({ length: 5 }, (_, i) => ({
               muted 
               loop 
               playsinline
-              preload="none"
+              preload="metadata"
+              //poster={vid.poster}
               webkit-playsinline="true"
+              data-loaded="false"
             >
               <source src={vid.src} type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
             <div class="absolute top-4 left-4 flex items-center gap-2 bg-dark/60 backdrop-blur-sm px-3 py-1.5 pointer-events-none">
               <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -131,44 +133,45 @@ const videos = Array.from({ length: 5 }, (_, i) => ({
     }
   })
 
-  // Video handling para desktop Y mobile
+  // Video handling - MEJORADO para evitar recargas
   document.querySelectorAll('.video-container').forEach(container => {
     const video = container.querySelector('video') as HTMLVideoElement
     if (!video) return
 
-    // Desktop: hover
+    // Desktop: hover para play/pause
     container.addEventListener('mouseenter', () => {
-      video.play().catch(() => {
-        // Si falla el autoplay, silenciar
-      })
+      video.play().catch(() => {})
     })
 
     container.addEventListener('mouseleave', () => {
       video.pause()
     })
 
-    // Mobile: touch/click para play/pause toggle
+    // Mobile: touch/click para play/pause
     container.addEventListener('click', (e) => {
       e.preventDefault()
       if (video.paused) {
-        video.play().catch(() => {
-          // Si falla, intentar de nuevo
-          video.load()
-          video.play()
-        })
+        video.play().catch(() => {})
       } else {
         video.pause()
       }
     })
 
-    // Cargar video cuando sea visible (lazy loading)
+    // Lazy loading - CARGAR SOLO UNA VEZ
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        // Solo cargar si NO se ha cargado antes
+        if (entry.isIntersecting && video.dataset.loaded === 'false') {
           video.load()
+          video.dataset.loaded = 'true'
+          // Una vez cargado, dejar de observar
+          observer.unobserve(video)
         }
       })
-    }, { threshold: 0.1 })
+    }, { 
+      threshold: 0.1,
+      rootMargin: '100px' // Precargar cuando está 100px antes de ser visible
+    })
 
     observer.observe(video)
   })
