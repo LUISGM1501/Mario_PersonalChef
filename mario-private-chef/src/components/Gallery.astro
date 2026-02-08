@@ -12,21 +12,23 @@ const videos = Array.from({ length: 5 }, (_, i) => ({
 <section id="gallery" class="relative py-24 md:py-32 bg-dark">
   <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
 
-  <div class="text-center mb-16 px-6 md:px-20 lg:px-32 xl:px-48" data-aos="fade-up">
-    <p class="text-primary text-sm uppercase tracking-[0.4em] mb-3 font-body">Portfolio</p>
-    <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-light text-white">
-      The <span class="text-primary italic">Gallery</span>
-    </h2>
+  <div class="px-6 md:px-20 lg:px-32 xl:px-48">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <p class="text-primary text-sm uppercase tracking-[0.4em] mb-3 font-body">Portfolio</p>
+      <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-light text-white">
+        The <span class="text-primary italic">Gallery</span>
+      </h2>
+    </div>
+
+    <div class="flex justify-center gap-6 mb-12" data-aos="fade-up" data-aos-delay="100">
+      <button class="gallery-filter active text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-primary text-primary transition-all duration-300" data-filter="all">All</button>
+      <button class="gallery-filter text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-transparent text-gray hover:text-primary transition-all duration-300" data-filter="photos">Photos</button>
+      <button class="gallery-filter text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-transparent text-gray hover:text-primary transition-all duration-300" data-filter="videos">Videos</button>
+    </div>
   </div>
 
-  <div class="flex justify-center gap-6 mb-12 px-6 md:px-20 lg:px-32 xl:px-48" data-aos="fade-up" data-aos-delay="100">
-    <button class="gallery-filter active text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-primary text-primary transition-all duration-300" data-filter="all">All</button>
-    <button class="gallery-filter text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-transparent text-gray hover:text-primary transition-all duration-300" data-filter="photos">Photos</button>
-    <button class="gallery-filter text-sm uppercase tracking-[0.2em] font-body pb-2 border-b-2 border-transparent text-gray hover:text-primary transition-all duration-300" data-filter="videos">Videos</button>
-  </div>
-
-  <!-- Gallery con GAPS VISUALES - más padding que las otras secciones -->
-  <div class="px-16 md:px-32 lg:px-48 xl:px-64">
+  <!-- Gallery con contenedor más pequeño para GAPS MÁS GRANDES -->
+  <div style="max-width: 1300px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem;">
     <div id="gallery-grid" class="columns-1 sm:columns-2 lg:columns-3 [column-gap:3px]">
       {images.map((img, i) => (
         <div class="gallery-item break-inside-avoid mb-[3px] overflow-hidden group cursor-pointer" data-type="photos" data-aos="fade-up" data-aos-delay={(i % 3) * 80}>
